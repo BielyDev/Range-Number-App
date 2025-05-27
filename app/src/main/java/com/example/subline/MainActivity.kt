@@ -55,12 +55,47 @@ class MainActivity : AppCompatActivity() {
 
         min_size_node.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                min_size = min_size_node.text.toString().toInt()
+                var _text: String = min_size_node.text.toString()
+
+                if (_text == ""){
+                    _text = "0"
+                    min_size_node.setText("0")
+                } else {
+                    if (_text.length > max_size_node.text.toString().length){
+                        var max_size_length: Int = max_size_node.text.toString().toInt()
+                        var _limit_string: String = (max_size_length - 1).toString()
+
+                        min_size_node.setText(_limit_string)
+                        _text = _limit_string
+                    }
+                }
+
+                min_size = _text.toInt()
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
         })
         max_size_node.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                max_size = max_size_node.text.toString().toInt()
+                var _text: String = max_size_node.text.toString()
+
+                if (_text == ""){
+                    _text = "0"
+                    max_size_node.setText("0")
+                }
+
+                max_size = _text.toInt()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
     }
