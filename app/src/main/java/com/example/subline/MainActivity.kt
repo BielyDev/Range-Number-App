@@ -1,6 +1,8 @@
 package com.example.subline
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,11 +12,18 @@ import android.view.ViewDebug.IntToString
 import android.widget.Button
 import android.widget.TextView
 import android.widget.SeekBar
+import android.widget.EditText
 
 
 lateinit var text_node: TextView
 lateinit var slider_node: SeekBar
 lateinit var button_node: Button
+lateinit var min_size_node: EditText
+lateinit var max_size_node: EditText
+
+var min_size: Int = 0
+var max_size: Int = 10
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         text_node = findViewById(R.id.textResult)
         slider_node = findViewById(R.id.rotationValueX)
+        min_size_node = findViewById(R.id.minSize)
+        max_size_node = findViewById(R.id.maxSize)
+
+        min_size_node.setText(min_size.toString())
+        max_size_node.setText(max_size.toString())
 
         slider_node.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -38,10 +52,21 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        min_size_node.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                min_size = min_size_node.text.toString().toInt()
+            }
+        })
+        max_size_node.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                max_size = max_size_node.text.toString().toInt()
+            }
+        })
     }
 
-    public fun pressButton(input : View){
-        val _randi_number: Int = (1..10).random()
+    public fun pressButton(_input : View){
+        val _randi_number: Int = (min_size..max_size).random()
         text_node.text = "O numero aleatorio é: " + _randi_number.toString()
     }
     public fun sliderChange(_progress: Int){
